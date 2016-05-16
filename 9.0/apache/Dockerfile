@@ -49,6 +49,15 @@ RUN curl -fsSL -o owncloud.tar.bz2 \
 	&& tar -xjf owncloud.tar.bz2 -C /usr/src/ \
 	&& rm owncloud.tar.bz2
 
+RUN apt-get update && apt-get install -y cron; \
+	update-rc.d cron defaults; \
+	/etc/init.d/cron start; \
+	echo "SHELL=/bin/bash" >> mycron; \
+	echo "PATH=/usr/local/bin:/usr/bin:/bin" >> mycron; \
+	echo "*/15 * * * * php -f /var/www/html/cron.php > /dev/null 2>&1" >>mycron; \
+	crontab -u www-data mycron; \
+	rm mycron
+
 COPY docker-entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
