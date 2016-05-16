@@ -61,4 +61,5 @@ RUN apt-get update && apt-get install -y cron; \
 COPY docker-entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
+CMD /etc/init.d/cron start
 CMD ["apache2-foreground"]
