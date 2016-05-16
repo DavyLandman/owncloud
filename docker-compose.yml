@@ -1,0 +1,12 @@
+#sudo docker create --name "owncloud" -p 5808:80 -v /mnt/backup/owncloud/:/var/www/html armhf-owncloud:9.0-apache
+
+version: '2'
+
+services:
+    owncloud:
+        build: 9.0/apache/
+        ports:
+            - "5808:80"
+        volumes:
+            - /mnt/backup/owncloud/:/var/www/html
+        restart: always
